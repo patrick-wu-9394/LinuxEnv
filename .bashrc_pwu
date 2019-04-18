@@ -1,0 +1,39 @@
+# Patrick Wu's BashRC
+
+# Find size of current directory
+function findDirSize() { if [ ! -z $(pwd | grep '/scratch/pwu') ]; then size=$(du -sh --apparent-size | tr -d '[[:space:]]' | rev|  cut -c 2- | rev ); echo "-$size(t)"; else size=$(ll | grep total | cut -d ' ' -f 2); echo "-$size"; fi; }
+
+
+# Shows git branch for bash prompt
+if [ -f /usr/share/git-core/contrib/completion/git-prompt.sh ]; then
+        . /usr/share/git-core/contrib/completion/git-prompt.sh
+fi
+
+### Bash Prompts ###
+
+# main
+PS1='\n\[\e[91m\]Φ \D{%r} \n\[\033[93m\]Σ PatrickWu@`whatip`\n\[\033[36m\]K \w$(__git_ps1 "(%s)")$(findDirSize) >> \[\033[0m\]'
+
+# Turn on Colors
+alias ls='ls --color=auto'
+
+# My alias's
+alias b='cd ..'
+alias ll='ls -alhrt'
+alias ll='ls -AlhX'
+alias whatip='hostname --ip-address'
+alias eb='vim ~/.bashrc'
+alias sb='source ~/.bashrc; echo "Pwu BashRC Sourced"'
+alias sv='pushd .'
+
+# Disable GTK warnings when running Gedit, Eclipse, etc.
+export SWT_GTK3=0
+export SWT_WEBKIT2=1
+
+# My functions
+
+# do an ls everything I cd
+cd() { builtin cd "$@" && ls --color=auto; }
+
+# Search using grep
+function search(){ grep -rni ${1}; }
