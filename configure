@@ -1,0 +1,13 @@
+#!/usr/bin/bash
+
+foundbashrc=`grep ".bashrc_pwu" ~/.bashrc`
+if [ ! "${foundbashrc}" ]; then
+	echo "Adding .bashrc_pwu to .bashrc"
+bashline="
+if [ -f .bashrc_pwu ]; then
+	. ~/.bashrc_pwu
+fi "
+	echo "${bashline}" >> ~/.bashrc 
+	cp .bashrc_pwu ~
+	echo "Copied .bashrc_pwu to home directory. Open a new terminal or source ~/.bashrc to see changes"
+fi
